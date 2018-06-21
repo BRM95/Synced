@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/home/bm95/Documents/React Projects/Synced/android/app/build/intermediates/res/merged/debug/drawable-mdpi/ic_launcher.png",
+        "source": "/home/bm95/Documents/React Projects/Synced/android/app/src/main/res/drawable-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/home/bm95/Documents/React Projects/Synced/android/app/build/intermediates/res/merged/debug/drawable-mdpi/screen.png",
+        "source": "/home/bm95/Documents/React Projects/Synced/android/app/src/main/res/drawable-mdpi/screen.png"
+    }
+]

@@ -1,0 +1,12 @@
+var _CircularProgress = require('./src/CircularProgress');
+
+var _CircularProgress2 = _interopRequireDefault(_CircularProgress);
+
+var _AnimatedCircularProgress = require('./src/AnimatedCircularProgress');
+
+var _AnimatedCircularProgress2 = _interopRequireDefault(_AnimatedCircularProgress);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.CircularProgress = _CircularProgress2.default;
+exports.AnimatedCircularProgress = _AnimatedCircularProgress2.default;

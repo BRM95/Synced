@@ -1,0 +1,688 @@
+var _react2 = require('react');
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require('./node_modules/react-transform-hmr/lib/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _jsxFileName = '/home/bm95/Documents/React Projects/Synced/index.android.js';
+
+var _reactNative = require('react-native');
+
+var _FontAwesome = require('react-native-vector-icons/FontAwesome');
+
+var _FontAwesome2 = _interopRequireDefault(_FontAwesome);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _reactNativeCircularProgress = require('react-native-circular-progress');
+
+var _reactNativeSplashScreen = require('react-native-splash-screen');
+
+var _reactNativeSplashScreen2 = _interopRequireDefault(_reactNativeSplashScreen);
+
+var _reactNativeCircleButton = require('react-native-circle-button');
+
+var _reactNativeCircleButton2 = _interopRequireDefault(_reactNativeCircleButton);
+
+var _socket = require('socket.io-client');
+
+var _socket2 = _interopRequireDefault(_socket);
+
+var _reactNativeFs = require('react-native-fs');
+
+var _reactNativeFs2 = _interopRequireDefault(_reactNativeFs);
+
+var _Button = require('./src/components/Button');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Container = require('./src/components/Container');
+
+var _Container2 = _interopRequireDefault(_Container);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  Synced: {
+    displayName: 'Synced'
+  }
+};
+
+var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: '/home/bm95/Documents/React Projects/Synced/index.android.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var MAX_POINTS = 100;
+var myIcon = _react3.default.createElement(_FontAwesome2.default, { name: 'rocket', size: 30, color: '#900', __source: {
+    fileName: _jsxFileName,
+    lineNumber: 29
+  }
+});
+var myStore = '';
+var myStorePaths = '';
+var primaryFontSize = 16;
+
+
+console.ignoredYellowBox = ['Setting a timer'];
+
+var Synced = _wrapComponent('Synced')(function (_Component) {
+  _inherits(Synced, _Component);
+
+  function Synced() {
+    _classCallCheck(this, Synced);
+
+    var _this = _possibleConstructorReturn(this, (Synced.__proto__ || Object.getPrototypeOf(Synced)).call(this));
+
+    _this.componentDidMount = function () {
+      _reactNativeSplashScreen2.default.hide();
+      var socket = (0, _socket2.default)('http://192.168.10.10:5002');
+      socket.on('connect', function () {
+        socket.on('progress', function (msg) {
+          console.log('Progress: ' + msg);
+          _this.setState({ points: msg / 100 });
+        });
+        socket.on('fileName', function (msg) {
+          _this.setState({ currentFile: msg });
+        });
+      });
+      _this.readDirectory('/storage/emulated/0/Music', '', 1, '');
+
+      _this.readDirectory('/storage/emulated/0/Download/', '', 3, '');
+    };
+
+    _this.readDirectory = function (path, store, val, storePaths) {
+      _reactNativeFs2.default.readDir(path).then(function (result) {
+        result.forEach(function (obj) {
+          str = JSON.stringify(obj.name).replace(/['"]+/g, '');
+          temp = path + '/' + str;
+          if (obj.isFile()) {
+            store += str + '\n';
+            storePaths += temp + '\n';
+            _this.setState({ currentFile: str });
+          } else {
+            _this.state.points = _this.state.points / 2;
+            _this.readDirectory(temp, store, val, storePaths);
+          }
+        });
+        _this.state.points *= 2;
+        if (_this.state.points > 1) _this.state.points = 1;
+
+        if (val == 1) {
+          _this.state.musicManifest += store;
+          _this.state.musicPaths += storePaths;
+        }
+        if (val == 2) {
+          _this.state.booksManifest += store;
+          _this.state.booksPaths += storePaths;
+        }
+        if (val == 3) {
+          _this.state.lecturesManifest += store;
+          _this.state.booksManifest += store;
+        }
+
+        if (_this.state.points >= 1) {
+          _this.state.currentFile = 'Done';
+        }
+        return store;
+      }).catch(function (err) {
+        alert(err.message, err.code);
+      });
+    };
+
+    _this.writeFile = function (path, encoding, data) {
+      _reactNativeFs2.default.writeFile(path, data, encoding).then(function (success) {
+        console.log('Success');
+      }).catch(function (err) {
+        alert(err.message);
+      });
+    };
+
+    _this.addToManifest = function (component, store) {
+      if (component == 'Music') _this.state.musicManifest = _this.state.musicManifest + store + '\n';
+      if (component == 'Books') _this.state.booksManifest = _this.state.booksManifest + store + '\n';
+      if (component == 'Lectures') _this.state.lecturesManifest = _this.state.lecturesManifest + store + '\n';
+    };
+
+    _this.downloadFile = function (component) {
+      var wP = _this.state.writePath;
+      _this.state.activeTransfers = true;
+      _reactNativeFs2.default.downloadFile({
+        fromUrl: 'http://192.168.10.10:5001',
+        toFile: _this.state.writePath
+      }).promise.then(function (response) {
+        _this.state.activeTransfers = false;
+        _this.addToManifest(component, wP.substr(wP.lastIndexOf("/") + 1, wP.length));
+        _this.setState({ points: 0 });
+        _this.setState({ currentFile: 'Done' });
+      }).catch(function (err) {
+        alert(err);
+        _this.state.activeTransfers = false;
+        _this.state.prevWritePath = '';
+        _reactNativeFs2.default.unlink(wP).then(function () {
+          console.log('FILE DELETED');
+          _this.downloadFile(val);
+        }).catch(function (err) {
+          console.log(err.message);
+        });
+      });
+    };
+
+    _this.makeDirectory = function (path, component) {
+      _reactNativeFs2.default.exists(path.substr(0, path.lastIndexOf("/"))).then(function (result) {
+        if (!result) {
+          _this.makeDirectory(path.substr(0, path.lastIndexOf("/")));
+          _reactNativeFs2.default.mkdir(path.substr(0, path.lastIndexOf("/")));
+        }
+        if (path == _this.state.writePath && _this.state.writePath != _this.state.prevWritePath) {
+          _this.downloadFile(component);
+          _this.state.prevWritePath = _this.state.writePath;
+        }
+      }).catch(function (err) {
+        console.log(err);
+      });
+    };
+
+    _this.resetVariables = function () {
+      _this.state.writePath = '';
+      _this.state.prevWritePath = '';
+      _this.state.manifestReceived = false;
+      _this.state.componentReceived = false;
+      _this.state.activeTransfers = false;
+      _this.state.transfersCompleted = false;
+    };
+
+    _this.handleDownload = function (path, component) {
+      _this.resetVariables();
+      var socket = (0, _socket2.default)('http://192.168.10.10:5002');
+      socket.on('connect', function () {
+        socket.emit('component', component);
+        if (component == 'Music') socket.emit('manifest', _this.state.musicManifest);
+        if (component == 'Books') socket.emit('manifest', _this.state.booksManifest);
+        if (component == 'Lectures') socket.emit('manifest', _this.state.lecturesManifest);
+
+        socket.on('manifestReceived', function (msg) {
+          _this.state.manifestReceived = true;
+        });
+
+        socket.on('componentReceived', function (msg) {
+          _this.state.componentReceived = true;
+        });
+        socket.on('progress', function (msg) {
+          console.log('Progress: ' + msg);
+          _this.setState({ points: msg / 100 });
+        });
+
+        socket.on('fileName', function (msg) {
+          _this.setState({ currentFile: msg });
+        });
+
+        socket.on('serverDisconnected', function (msg) {
+          alert('Server disconnected');
+          if (msg) _this.setState({ prevWritePath: '' });
+        });
+        socket.on('transferComplete', function (msg) {
+          _this.state.transfersCompleted = msg;
+          if (_this.state.manifestReceived == false) {
+            if (component == 'Music') socket.emit('manifest', _this.state.musicManifest);
+            if (component == 'Books') socket.emit('manifest', _this.state.booksManifest);
+            if (component == 'Lectures') socket.emit('manifest', _this.state.lecturesManifest);
+          }
+          if (_this.state.componentReceived == false) {
+            socket.emit('componentReceived', _this.state.componentReceived);
+          }
+          socket.on('savePath', function (msg) {
+            _this.state.writePath = path + msg;
+            _this.state.writePath = _this.state.writePath.replace(/\s*$/, "");
+          });
+
+          if (msg == false && _this.state.manifestReceived == true && _this.state.componentReceived == true) {
+            if (/\S/.test(_this.state.writePath)) {
+              if (_this.state.prevWritePath != _this.state.writePath && _this.state.activeTransfers == false) {
+                _this.makeDirectory(_this.state.writePath, component);
+              }
+            }
+          }
+        });
+        socket.on('savePath', function (msg) {
+          _this.state.writePath = path + msg;
+          _this.state.writePath = _this.state.writePath.replace(/\s*$/, "");
+        });
+      });
+
+      socket.on('disconnect', function () {
+        alert('disconnected');
+        if (_this.state.transfersCompleted == false) {
+          _this.handleDownload(path, component);
+        }
+        _this.resetVariables();
+      });
+    };
+
+    _this.fileUpload = function (path) {
+      var file = {
+        filepath: path };
+
+      var opts = {
+        url: 'http://my.server/api/upload',
+        files: file,
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        params: { 'user_id': 1 } };
+
+      RNUploader.upload(opts, function (err, response) {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        var status = response.status;
+        var responseString = response.body.string;
+        var json = JSON.parse(responseString);
+        console.log('upload complete with status ' + status);
+      });
+    };
+
+    _this.handleUpload = function (component) {
+      var socket = (0, _socket2.default)('http://192.168.10.10:5002');
+      if (component == 'Music') socket.emit('uploadManifest', musicPaths);
+      if (component == 'Books') socket.emit('uploadManifest', booksPaths);
+      if (component == 'Lectures') socket.emit('uploadManifest', lecturesPaths);
+      socket.on('upload', function (path) {
+        _this.fileUpload(path);
+      });
+    };
+
+    _this.state = {
+      isMoving: false,
+      points: 0.5,
+      stored: '',
+      currentFile: 'N/A',
+      writePath: '',
+      manifestReceived: false,
+      componentReceived: false,
+      prevWritePath: '',
+      musicManifest: '',
+      musicPaths: '',
+      booksManifest: '',
+      booksPaths: '',
+      lecturesManifest: '',
+      lecturesPaths: '',
+      activeTransfers: false,
+      transfersCompleted: false
+    };
+    return _this;
+  }
+
+  _createClass(Synced, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react3.default.createElement(
+        _reactNative.View,
+        { style: styles.container, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 310
+          }
+        },
+        _react3.default.createElement(
+          _reactNative.View,
+          { style: { backgroundColor: 'rgba(28, 28, 28, 0.9)', width: 400, position: 'absolute', top: 0, height: 70, padding: 20 }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 311
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.Text,
+            { style: styles.textStyle, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 312
+              }
+            },
+            _react3.default.createElement(_reactNative.Image, { source: require('./src/images/ic_launcher.png'), style: { width: 45, height: 45 }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 312
+              }
+            }),
+            ' SYNCED'
+          )
+        ),
+        _react3.default.createElement(
+          _reactNative.View,
+          { style: styles.container, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 314
+            }
+          },
+          _react3.default.createElement(
+            _reactNativeCircularProgress.AnimatedCircularProgress,
+            {
+              size: 200,
+              width: 6,
+              fill: this.state.points * MAX_POINTS,
+              tintColor: '#3d5875',
+              backgroundColor: '#FFBE2C', __source: {
+                fileName: _jsxFileName,
+                lineNumber: 315
+              }
+            },
+            function (fill) {
+              return _react3.default.createElement(
+                _reactNative.Text,
+                { style: styles.points, __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 323
+                  }
+                },
+                _this2.state.currentFile
+              );
+            }
+          ),
+          _react3.default.createElement(
+            _reactNative.Text,
+            { style: [styles.pointsDelta, this.state.isMoving && styles.pointsDeltaActive], __source: {
+                fileName: _jsxFileName,
+                lineNumber: 329
+              }
+            },
+            this.state.points >= 0,
+            Math.round(this.state.points * MAX_POINTS),
+            '%'
+          ),
+          _react3.default.createElement(_reactNativeCircularProgress.AnimatedCircularProgress, {
+            size: 180,
+            width: 4,
+            fill: this.state.points * MAX_POINTS,
+            tintColor: '#FFE12E',
+            backgroundColor: '#3d5875',
+            style: styles.circularProgress, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 335
+            }
+          })
+        ),
+        _react3.default.createElement(
+          _reactNative.View,
+          { style: styles.containerNew, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 344
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.View,
+            { style: styles.buttonContainer, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 345
+              }
+            },
+            _react3.default.createElement(_reactNativeCircleButton2.default, { size: 60,
+              primaryColor: '#FFFFFF',
+              secondaryColor: 'rgba(61, 88, 117 ,0.35)',
+              onPressButtonTop: function onPressButtonTop() {
+                return _this2.handleDownload('/storage/emulated/0/Music', 'Music');
+              },
+              onPressButtonLeft: function onPressButtonLeft() {
+                return _this2.handleDownload('/storage/emulated/0/Download', 'Lectures');
+              },
+              onPressButtonRight: function onPressButtonRight() {
+                return _this2.handleDownload('/storage/emulated/0/Books', 'Books');
+              },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 346
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              { style: styles.buttonBlackText, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 353
+                }
+              },
+              'Download'
+            )
+          ),
+          _react3.default.createElement(
+            _reactNative.View,
+            { style: styles.buttonContainer, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 357
+              }
+            },
+            _react3.default.createElement(_reactNativeCircleButton2.default, { size: 60,
+              primaryColor: '#FFFFFF',
+              secondaryColor: 'rgba(61, 88, 117 ,0.35)',
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 358
+              }
+            }),
+            _react3.default.createElement(
+              _reactNative.Text,
+              { style: styles.buttonBlackText, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 362
+                }
+              },
+              'Upload'
+            )
+          )
+        ),
+        _react3.default.createElement(
+          _reactNative.View,
+          { style: { backgroundColor: 'rgba(28, 28, 28, 0.9)', width: 400, position: 'absolute', bottom: 0, height: 30, padding: 5 }, __source: {
+              fileName: _jsxFileName,
+              lineNumber: 367
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.View,
+            {
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 368
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.Text,
+              { style: styles.textStyleFooter, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 368
+                }
+              },
+              _react3.default.createElement(_reactNative.Image, { source: require('./src/images/ic_launcher.png'), style: { width: 20, height: 20 }, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 368
+                }
+              }),
+              '  Synced @2017'
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return Synced;
+}(_react2.Component));
+
+var styles = _reactNative.StyleSheet.create({
+  points: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 72,
+    left: 56,
+    width: 90,
+    textAlign: 'center',
+    color: '#7591af',
+    fontSize: primaryFontSize,
+    fontWeight: "100"
+  },
+  buttonWhiteText: {
+    fontSize: 20,
+    color: '#FFF'
+  },
+  buttonBlackText: {
+    fontSize: 20,
+    paddingLeft: 40,
+    alignRight: 50,
+    fontFamily: 'Aileron',
+    color: '#595856'
+  },
+  primaryButton: {
+    flex: 1,
+    width: 120,
+    height: 120,
+    borderWidth: 1,
+    borderColor: 'black'
+  },
+  secondaryButton: {
+    marginTop: 20,
+    height: 100,
+    width: 250,
+    borderWidth: 1,
+    borderColor: 'black'
+  },
+  textStyle: {
+    color: 'rgba(256, 256, 256, 0.8)',
+    fontFamily: 'Bebas Neue',
+    fontWeight: '700',
+    fontSize: 24,
+    textAlign: 'center',
+    alignSelf: 'center'
+  },
+  textStyleFooter: {
+    color: 'rgba(256, 256, 256, 0.8)',
+    fontFamily: 'Bebas Neue',
+    fontWeight: '700',
+    fontSize: 13,
+    textAlign: 'center',
+    alignSelf: 'center'
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover' },
+  containerNew: {
+    flex: 1,
+    marginTop: 100,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: 'center'
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 50
+  },
+  pointsDelta: {
+    color: '#4c6479',
+    fontSize: 50,
+    fontWeight: "100"
+  },
+  pointsDeltaActive: {
+    color: '#fff'
+  },
+  circularProgress: {
+    position: 'absolute',
+    top: 60,
+    left: 60
+  },
+  quarterHeight: {
+    flex: 15,
+    backgroundColor: '#FF3366'
+  },
+  main: {
+    backgroundColor: '#ECECEC',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    flex: 1
+  },
+  buttonBlackText: {
+    fontSize: 20,
+    color: '#595856'
+  },
+  backgroundImage: {
+    flex: 1,
+    top: 0,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    left: 0,
+    position: 'absolute',
+    width: _reactNative.Dimensions.get('window').width,
+    height: _reactNative.Dimensions.get('window').height
+  },
+  textStyle: {
+    color: '#fff',
+    fontFamily: 'Bebas Neue',
+    fontWeight: '700',
+    fontSize: 30,
+    textAlign: 'center',
+    alignSelf: 'center'
+  },
+  circularButton: {
+    flexDirection: 'row',
+    marginTop: 50,
+    width: 150,
+    borderWidth: 2,
+    backgroundColor: '#d73352',
+    marginLeft: _reactNative.Dimensions.get('window').width / 4,
+    height: 150,
+    borderRadius: 100
+  },
+  scroll: {
+    flex: 1,
+    padding: 30
+  },
+  label: {
+    color: '#0d8898',
+    fontSize: 20
+  },
+  alignRight: {
+    alignSelf: 'flex-end'
+  },
+  buttonWhiteText: {
+    fontSize: 20,
+    color: '#FFF'
+  },
+  alert: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
+    fontWeight: 'bold'
+  },
+  inline: {
+    flexDirection: 'row'
+  },
+  footer: {
+    marginTop: 30
+  }
+});
+
+_reactNative.AppRegistry.registerComponent('Synced', function () {
+  return Synced;
+});

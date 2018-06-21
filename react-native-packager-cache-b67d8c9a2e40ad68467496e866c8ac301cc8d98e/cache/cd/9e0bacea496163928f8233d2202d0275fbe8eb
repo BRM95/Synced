@@ -1,0 +1,143 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react2 = require('react');
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require('./../../react-transform-hmr/lib/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _jsxFileName = '/home/bm95/Documents/React Projects/Synced/node_modules/react-native-circular-progress/src/AnimatedCircularProgress.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _reactNative = require('react-native');
+
+var _CircularProgress = require('./CircularProgress');
+
+var _CircularProgress2 = _interopRequireDefault(_CircularProgress);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  AnimatedCircularProgress: {
+    displayName: 'AnimatedCircularProgress'
+  }
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: '/home/bm95/Documents/React Projects/Synced/node_modules/react-native-circular-progress/src/AnimatedCircularProgress.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _reactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var AnimatedProgress = _reactNative.Animated.createAnimatedComponent(_CircularProgress2.default);
+
+var AnimatedCircularProgress = _wrapComponent('AnimatedCircularProgress')(function (_React$Component) {
+  _inherits(AnimatedCircularProgress, _React$Component);
+
+  function AnimatedCircularProgress(props) {
+    _classCallCheck(this, AnimatedCircularProgress);
+
+    var _this = _possibleConstructorReturn(this, (AnimatedCircularProgress.__proto__ || Object.getPrototypeOf(AnimatedCircularProgress)).call(this, props));
+
+    _this.state = {
+      chartFillAnimation: new _reactNative.Animated.Value(props.prefill || 0)
+    };
+    return _this;
+  }
+
+  _createClass(AnimatedCircularProgress, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.animateFill();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.fill !== this.props.fill) {
+        this.animateFill();
+      }
+    }
+  }, {
+    key: 'animateFill',
+    value: function animateFill() {
+      var _props = this.props,
+          tension = _props.tension,
+          friction = _props.friction;
+
+
+      _reactNative.Animated.spring(this.state.chartFillAnimation, {
+        toValue: this.props.fill,
+        tension: tension,
+        friction: friction
+      }).start();
+    }
+  }, {
+    key: 'performLinearAnimation',
+    value: function performLinearAnimation(toValue, duration) {
+      _reactNative.Animated.timing(this.state.chartFillAnimation, {
+        toValue: toValue,
+        duration: duration
+      }).start();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props2 = this.props,
+          fill = _props2.fill,
+          prefill = _props2.prefill,
+          other = _objectWithoutProperties(_props2, ['fill', 'prefill']);
+
+      return _react3.default.createElement(AnimatedProgress, _extends({}, other, {
+        fill: this.state.chartFillAnimation,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 49
+        }
+      }));
+    }
+  }]);
+
+  return AnimatedCircularProgress;
+}(_react3.default.Component));
+
+exports.default = AnimatedCircularProgress;
+
+
+AnimatedCircularProgress.propTypes = {
+  style: _reactNative.View.propTypes.style,
+  size: _react2.PropTypes.number.isRequired,
+  fill: _react2.PropTypes.number,
+  prefill: _react2.PropTypes.number,
+  width: _react2.PropTypes.number.isRequired,
+  tintColor: _react2.PropTypes.string,
+  backgroundColor: _react2.PropTypes.string,
+  tension: _react2.PropTypes.number,
+  friction: _react2.PropTypes.number
+};
+
+AnimatedCircularProgress.defaultProps = {
+  tension: 7,
+  friction: 10
+};

@@ -1,0 +1,435 @@
+var _react2 = require('react');
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require('./../../react-transform-hmr/lib/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _jsxFileName = '/home/bm95/Documents/React Projects/Synced/node_modules/react-native-circle-button/src/main.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _reactNative = require('react-native');
+
+var _add = require('./images/add.png');
+
+var _add2 = _interopRequireDefault(_add);
+
+var _setting = require('./images/setting.png');
+
+var _setting2 = _interopRequireDefault(_setting);
+
+var _email = require('./images/email.png');
+
+var _email2 = _interopRequireDefault(_email);
+
+var _person = require('./images/person.png');
+
+var _person2 = _interopRequireDefault(_person);
+
+var _attach = require('./images/attach.png');
+
+var _attach2 = _interopRequireDefault(_attach);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  CircleButton: {
+    displayName: 'CircleButton'
+  }
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: '/home/bm95/Documents/React Projects/Synced/node_modules/react-native-circle-button/src/main.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _reactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var CircleButton = _wrapComponent('CircleButton')(function (_Component) {
+  _inherits(CircleButton, _Component);
+
+  function CircleButton() {
+    _classCallCheck(this, CircleButton);
+
+    var _this = _possibleConstructorReturn(this, (CircleButton.__proto__ || Object.getPrototypeOf(CircleButton)).call(this));
+
+    _this.state = {
+      isClicked: false
+    };
+
+    _this.rotateAnimated = new _reactNative.Animated.Value(0);
+    _this.scaleAnimated = new _reactNative.Animated.Value(0);
+    _this.bringToBackAnimated = new _reactNative.Animated.Value(0);
+    _this.bringToLeftAnimated = new _reactNative.Animated.Value(0);
+    _this.bringToRightAnimated = new _reactNative.Animated.Value(0);
+    _this.bringToTopAnimated = new _reactNative.Animated.Value(0);
+    _this.bringToBottomAnimated = new _reactNative.Animated.Value(0);
+    _this.fadeAnimated = new _reactNative.Animated.Value(0);
+    _this._buttonCenter = _this._buttonCenter.bind(_this);
+    _this._buttonTop = _this._buttonTop.bind(_this);
+    _this._buttonRight = _this._buttonRight.bind(_this);
+    _this._buttonBottom = _this._buttonBottom.bind(_this);
+    _this._buttonLeft = _this._buttonLeft.bind(_this);
+    return _this;
+  }
+
+  _createClass(CircleButton, [{
+    key: 'createAnimation',
+    value: function createAnimation(obj, toValue, duration, easing) {
+      return _reactNative.Animated.timing(obj, {
+        toValue: toValue,
+        duration: duration,
+        easing: _reactNative.Easing.linear
+      }).start();
+    }
+  }, {
+    key: 'startAnimation',
+    value: function startAnimation() {
+      this.createAnimation(this.rotateAnimated, 1, 200);
+      this.createAnimation(this.scaleAnimated, 1, 200);
+      this.createAnimation(this.bringToBackAnimated, 1, 150);
+      this.createAnimation(this.bringToLeftAnimated, 1, 200);
+      this.createAnimation(this.bringToRightAnimated, 1, 200);
+      this.createAnimation(this.bringToTopAnimated, 1, 200);
+      this.createAnimation(this.bringToBottomAnimated, 1, 200);
+      this.createAnimation(this.fadeAnimated, 1, 200);
+    }
+  }, {
+    key: 'endAnimation',
+    value: function endAnimation() {
+      this.createAnimation(this.rotateAnimated, 2, 200);
+      this.createAnimation(this.scaleAnimated, 0, 200);
+      this.createAnimation(this.bringToBackAnimated, 0, 2000);
+      this.createAnimation(this.bringToLeftAnimated, 0, 200);
+      this.createAnimation(this.bringToRightAnimated, 0, 200);
+      this.createAnimation(this.bringToTopAnimated, 0, 200);
+      this.createAnimation(this.bringToBottomAnimated, 0, 200);
+      this.createAnimation(this.fadeAnimated, 0, 200);
+    }
+  }, {
+    key: '_buttonCenter',
+    value: function _buttonCenter() {
+      this.startAnimation();
+      this.setState({ isClicked: !this.state.isClicked });
+
+      if (this.state.isClicked) this.endAnimation();
+    }
+  }, {
+    key: '_buttonTop',
+    value: function _buttonTop() {
+      this.setState({ isClicked: !this.state.isClicked });
+      this.endAnimation();
+      this.props.onPressButtonTop();
+    }
+  }, {
+    key: '_buttonRight',
+    value: function _buttonRight() {
+      this.setState({ isClicked: !this.state.isClicked });
+      this.endAnimation();
+      this.props.onPressButtonRight();
+    }
+  }, {
+    key: '_buttonBottom',
+    value: function _buttonBottom() {
+      this.setState({ isClicked: !this.state.isClicked });
+      this.endAnimation();
+      this.props.onPressButtonBottom();
+    }
+  }, {
+    key: '_buttonLeft',
+    value: function _buttonLeft() {
+      this.setState({ isClicked: !this.state.isClicked });
+      this.endAnimation();
+      this.props.onPressButtonLeft();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          size = _props.size,
+          primaryColor = _props.primaryColor,
+          secondaryColor = _props.secondaryColor;
+
+
+      var styles = _reactNative.StyleSheet.create({
+        container: {
+          flex: 1,
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        },
+        buttonWrapper: {
+          right: size * 2 - 10
+        },
+        buttonLeft: {
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: size - 5,
+          height: size - 5,
+          borderRadius: 360
+        },
+        buttonRight: {
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: size - 5,
+          height: size - 5,
+          borderRadius: 360
+        },
+        buttonCenter: {
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: size,
+          height: size,
+          borderRadius: 360,
+          backgroundColor: primaryColor
+        },
+        buttonTop: {
+          right: -size * 2 + 7,
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: size - 5,
+          height: size - 5,
+          borderRadius: 360
+        },
+        buttonBottom: {
+          right: size - 7,
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: size - 5,
+          height: size - 5,
+          borderRadius: 360
+        },
+        text: {
+          color: '#EECE69',
+          fontWeight: 'bold',
+          letterSpacing: 1
+        },
+        centerImage: {
+          width: size - 5,
+          height: size - 5
+        },
+        childImage: {
+          width: size - 15,
+          height: size - 15
+        },
+        circle: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: 360,
+          backgroundColor: secondaryColor
+        }
+      });
+
+      var rotateMe = this.rotateAnimated.interpolate({
+        inputRange: [0, 1, 2],
+        outputRange: ['0deg', '45deg', '0deg']
+      });
+
+      var scaleMe = this.scaleAnimated.interpolate({
+        inputRange: [0, 1],
+        outputRange: [size, size * 2.8]
+      });
+
+      var bringToBack = this.bringToBackAnimated.interpolate({
+        inputRange: [0, 1],
+        outputRange: [99, -1]
+      });
+
+      var bringMeToLeft = this.bringToLeftAnimated.interpolate({
+        inputRange: [0, 1],
+        outputRange: [size, 0]
+      });
+
+      var bringMeToRight = this.bringToRightAnimated.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, size]
+      });
+
+      var bringMeToTop = this.bringToTopAnimated.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, -size + 2]
+      });
+
+      var bringMeToBottom = this.bringToBottomAnimated.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, size - 2]
+      });
+
+      var fadeInOut = this.fadeAnimated.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1]
+      });
+
+      return _react3.default.createElement(
+        _reactNative.View,
+        { style: styles.container, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 222
+          }
+        },
+        _react3.default.createElement(
+          _reactNative.Animated.View,
+          { style: [styles.circle, { width: scaleMe, height: scaleMe }], __source: {
+              fileName: _jsxFileName,
+              lineNumber: 223
+            }
+          },
+          _react3.default.createElement(
+            _reactNative.Animated.View,
+            { style: { top: bringMeToTop }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 224
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.TouchableOpacity,
+              { onPress: this._buttonTop, activeOpacity: 1, style: styles.buttonTop, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 225
+                }
+              },
+              _react3.default.createElement(_reactNative.Animated.Image, { source: this.props.iconButtonTop, style: [styles.childImage, { opacity: fadeInOut }], __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 226
+                }
+              })
+            )
+          ),
+          _react3.default.createElement(
+            _reactNative.Animated.View,
+            { style: { left: bringMeToLeft }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 229
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.TouchableOpacity,
+              { onPress: this._buttonLeft, activeOpacity: 1, style: styles.buttonLeft, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 230
+                }
+              },
+              _react3.default.createElement(_reactNative.Animated.Image, { source: this.props.iconButtonLeft, style: [styles.childImage, { opacity: fadeInOut }], __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 231
+                }
+              })
+            )
+          ),
+          _react3.default.createElement(
+            _reactNative.Animated.View,
+            { style: { left: bringMeToRight }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 234
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.TouchableOpacity,
+              { onPress: this._buttonRight, activeOpacity: 1, style: styles.buttonRight, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 235
+                }
+              },
+              _react3.default.createElement(_reactNative.Animated.Image, { source: this.props.iconButtonRight, style: [styles.childImage, { opacity: fadeInOut }], __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 236
+                }
+              })
+            )
+          ),
+          _react3.default.createElement(
+            _reactNative.Animated.View,
+            { style: { top: bringMeToBottom }, __source: {
+                fileName: _jsxFileName,
+                lineNumber: 239
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.TouchableOpacity,
+              { onPress: this._buttonBottom, activeOpacity: 1, style: styles.buttonBottom, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 240
+                }
+              },
+              _react3.default.createElement(_reactNative.Animated.Image, { source: this.props.iconButtonBottom, style: [styles.childImage, { opacity: fadeInOut }], __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 241
+                }
+              })
+            )
+          ),
+          _react3.default.createElement(
+            _reactNative.Animated.View,
+            { style: [styles.buttonWrapper, { transform: [{ rotate: rotateMe }] }], __source: {
+                fileName: _jsxFileName,
+                lineNumber: 244
+              }
+            },
+            _react3.default.createElement(
+              _reactNative.TouchableOpacity,
+              { onPress: this._buttonCenter, activeOpacity: 1, style: styles.buttonCenter, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 245
+                }
+              },
+              _react3.default.createElement(_reactNative.Animated.Image, { source: this.props.iconButtonCenter, style: styles.centerImage, __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 246
+                }
+              })
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return CircleButton;
+}(_react2.Component));
+
+CircleButton.defaultProps = {
+  size: 40,
+  onPressButtonTop: function onPressButtonTop() {},
+  onPressButtonRight: function onPressButtonRight() {},
+  onPressButtonBottom: function onPressButtonBottom() {},
+  onPressButtonLeft: function onPressButtonLeft() {},
+  iconButtonCenter: _add2.default,
+  iconButtonTop: _person2.default,
+  iconButtonRight: _attach2.default,
+  iconButtonBottom: _setting2.default,
+  iconButtonLeft: _email2.default,
+  primaryColor: '#41727E',
+  secondaryColor: '#459186'
+};
+
+CircleButton.propTypes = {
+  size: _react2.PropTypes.number,
+  onPressButtonTop: _react2.PropTypes.func,
+  onPressButtonRight: _react2.PropTypes.func,
+  onPressButtonBottom: _react2.PropTypes.func,
+  onPressButtonLeft: _react2.PropTypes.func,
+  iconButtonCenter: _react2.PropTypes.number,
+  iconButtonTop: _react2.PropTypes.number,
+  iconButtonRight: _react2.PropTypes.number,
+  iconButtonBottom: _react2.PropTypes.number,
+  iconButtonLeft: _react2.PropTypes.number,
+  primaryColor: _react2.PropTypes.string,
+  secondaryColor: _react2.PropTypes.string
+};
+
+module.exports = CircleButton;

@@ -1,0 +1,54 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var _jsxFileName = '/home/bm95/Documents/React Projects/Synced/src/components/Button.js';
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactNative = require('react-native');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Button = function Button(props) {
+
+	function getContent() {
+		if (props.children) {
+			return props.children;
+		}
+		return _react2.default.createElement(
+			_reactNative.Text,
+			{ style: props.styles.label, __source: {
+					fileName: _jsxFileName,
+					lineNumber: 15
+				}
+			},
+			props.label
+		);
+	}
+
+	return _react2.default.createElement(
+		_reactNative.TouchableHighlight,
+		{
+			underlayColor: '#ccc',
+			onPress: props.onPress,
+			style: [props.noDefaultStyles ? '' : styles.button, props.styles ? props.styles.button : ''],
+			__source: {
+				fileName: _jsxFileName,
+				lineNumber: 19
+			}
+		},
+		getContent()
+	);
+};
+
+var styles = _reactNative.StyleSheet.create({
+	button: {
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: 20
+	}
+});
+
+exports.default = Button;
